@@ -43,9 +43,13 @@ std::array<int, 4> letter_grades(int highest_score) {
     // TODO: Implement letter_grades
     std::array<double, 4> double_thresholds{};
     std::array<int, 4> rounded_thresholds{};
+    const int total_range = highest_score - 40;
+    const double grade_interval_size = total_range / 4;
     for (int i = 0; i < double_thresholds.size(); i++) {
-        double_thresholds[i] = ((highest_score * .6)/4)*(i)+40;
-        rounded_thresholds[i] = (static_cast<int>(std::floor(double_thresholds[i])));
+        double_thresholds[i] = (grade_interval_size)*(i)+40;
+        rounded_thresholds[i] = (static_cast<int>(std::floor(double_thresholds[i])+1));
+        // the minimum value of the range is one more than calculated by the above variables
+        // every value in rounded thresholds should have 1 added after rounding down.
     }
     
     return rounded_thresholds;
@@ -56,7 +60,8 @@ std::vector<std::string> student_ranking(std::vector<int> student_scores, std::v
     // TODO: Implement student_ranking
     std::vector<std::string> student_rankings{};
     for (int i = 0; i <student_scores.size(); i++) {
-        student_rankings.emplace_back((i + 1) + ". " + student_names[i] + ": " + std::to_string(student_scores[i]));
+        std::string rank = std::to_string(i + 1);
+        student_rankings.emplace_back (rank + ". " + student_names[i] + ": " + std::to_string(student_scores[i]));
     }
     return student_rankings;
 }
